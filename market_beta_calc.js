@@ -1,0 +1,46 @@
+/** @OnlyCurrentDoc */
+
+function marketbeta() {
+  var spreadsheet = SpreadsheetApp.getActive();
+  spreadsheet.getRange('A1').activate();
+  spreadsheet.getCurrentCell().setValue('Enter your stock name');
+  spreadsheet.getRange('B1').activate();
+  spreadsheet.getActiveRangeList().setBackground('#ffff00');
+  spreadsheet.getRange('A2').activate();
+  spreadsheet.getCurrentCell().setValue('Enter your index name');
+  spreadsheet.getRange('B2').activate();
+  spreadsheet.getActiveRangeList().setBackground('#ffff00');
+  spreadsheet.getRange('A4').activate();
+  spreadsheet.getCurrentCell().setFormula('=GOOGLEFINANCE(B1,"close",TODAY()-1825,TODAY(),"weekly")');
+  spreadsheet.getRange('C4').activate();
+  spreadsheet.getCurrentCell().setFormula('=INDEX(GOOGLEFINANCE(B2,"close",TODAY()-1825,TODAY(),"weekly"),,2)');
+  spreadsheet.getRange('D4').activate();
+  spreadsheet.getCurrentCell().setValue('Stock Return');
+  spreadsheet.getRange('E4').activate();
+  spreadsheet.getCurrentCell().setValue('Index Return');
+  spreadsheet.getRange('D5').activate();
+  spreadsheet.getCurrentCell().setValue('-');
+  spreadsheet.getRange('E5').activate();
+  spreadsheet.getCurrentCell().setValue('-');
+  spreadsheet.getRange('D6').activate();
+  spreadsheet.getCurrentCell().setFormula('=(B6-B5)/B5');
+  spreadsheet.getRange('E6').activate();
+  spreadsheet.getCurrentCell().setFormula('=(C6-C5)/C5');
+  spreadsheet.getRange('F4').activate();
+  spreadsheet.getCurrentCell().setValue('Slope ');
+  spreadsheet.getRange('F5').activate();
+  spreadsheet.getCurrentCell().setValue('Covariance');
+  spreadsheet.getRange('F6').activate();
+  spreadsheet.getCurrentCell().setValue('Linear Regression');
+  spreadsheet.getRange('G4').activate();
+  spreadsheet.getCurrentCell().setFormula('=SLOPE(D6:D265,E6:E265)');
+  spreadsheet.getRange('D6').activate();
+  spreadsheet.getActiveRange().autoFill(spreadsheet.getRange('D6:D265'), SpreadsheetApp.AutoFillSeries.DEFAULT_SERIES);
+  spreadsheet.getRange('E6').activate();
+  spreadsheet.getActiveRange().autoFill(spreadsheet.getRange('E6:E265'), SpreadsheetApp.AutoFillSeries.DEFAULT_SERIES);
+  spreadsheet.getRange('G5').activate();
+  spreadsheet.getCurrentCell().setFormula('=COVAR(D6:D265,E6:E265)/VAR(E6:E265)');
+  spreadsheet.getRange('G6').activate();
+  spreadsheet.getCurrentCell().setFormula('=LINEST(D6:D265,E6:E265)');
+  spreadsheet.getRange('G7').activate();
+};
